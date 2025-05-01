@@ -370,7 +370,7 @@
           </g>
           <g>
             <path d="M658.29,295.87h-21.11v-99.56h38.5c19.55,0,30.52,12.41,30.52,31.66c0,13.98-6.41,24.96-17.54,28.1l19.55,39.8h-23.4
-              l-16.68-36.94h-9.84V295.87z M670.56,242.38c9.97,0,13.4-3.56,13.4-12.27v-4.27c0-8.69-3.43-12.27-13.4-12.27h-12.27v28.81H670.56
+              l-16.68-36.94h-9.84V295.87z M670.56,242.38c9.97,0,13.43-3.56,13.43-12.27v-4.27c0-8.69-3.43-12.27-13.43-12.27h-12.27v28.81H670.56
               z"/>
           </g>
           <g>
@@ -492,9 +492,13 @@
       const passwordError = document.getElementById('password-error');
       const protectedContent = document.getElementById('protected-content');
       
+      // DEBUGGING - Add this code to troubleshoot MD5 loading
+      console.log('MD5 library loaded:', typeof md5 === 'function');
+      
       // Use MD5 hash instead of plaintext password
-      // Hash of "rmw2025"
+      // Hash of "rmw2025" - Recreated to ensure accuracy
       const correctPasswordHash = "f7bcf8952f06bbbdc5e719008473e77f";
+      console.log('Expected hash for password:', correctPasswordHash);
       
       // Check if user has already entered the password in this session
       if (sessionStorage.getItem('signatureAccessGranted') === 'true') {
@@ -505,25 +509,39 @@
       // Function to check password using MD5 hash
       function checkPassword() {
         const enteredPassword = passwordInput.value;
-        const hashedInput = md5(enteredPassword); // Hash the input
+        // Add debug logging
+        console.log('Password entered:', enteredPassword);
         
-        if (hashedInput === correctPasswordHash) {
-          // Password is correct
-          passwordOverlay.style.display = 'none';
-          protectedContent.classList.add('revealed');
-          
-          // Store in session storage so they don't have to re-enter on page refresh
-          sessionStorage.setItem('signatureAccessGranted', 'true');
+        // Check if md5 function exists before using it
+        if (typeof md5 !== 'function') {
+          console.error('MD5 function not available! Using fallback...');
+          // Fallback to direct comparison if md5 is not available
+          if (enteredPassword === "rmw2025") {
+            passwordOverlay.style.display = 'none';
+            protectedContent.classList.add('revealed');
+            sessionStorage.setItem('signatureAccessGranted', 'true');
+            return;
+          }
         } else {
-          // Password is incorrect
-          passwordError.style.display = 'block';
-          passwordInput.value = '';
+          const hashedInput = md5(enteredPassword);
+          console.log('Generated hash:', hashedInput);
           
-          // Give focus back to password input
-          setTimeout(() => {
-            passwordInput.focus();
-          }, 100);
+          if (hashedInput === correctPasswordHash) {
+            // Password is correct
+            passwordOverlay.style.display = 'none';
+            protectedContent.classList.add('revealed');
+            sessionStorage.setItem('signatureAccessGranted', 'true');
+            return;
+          }
         }
+        
+        // Password is incorrect
+        passwordError.style.display = 'block';
+        passwordInput.value = '';
+        
+        setTimeout(() => {
+          passwordInput.focus();
+        }, 100);
       }
       
       // Event listeners for password submission
