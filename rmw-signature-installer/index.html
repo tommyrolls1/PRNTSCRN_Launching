@@ -492,13 +492,8 @@
       const passwordError = document.getElementById('password-error');
       const protectedContent = document.getElementById('protected-content');
       
-      // DEBUGGING - Add this code to troubleshoot MD5 loading
-      console.log('MD5 library loaded:', typeof md5 === 'function');
-      
-      // Use MD5 hash instead of plaintext password
-      // Hash of "rmw2025" - Recreated to ensure accuracy
-      const correctPasswordHash = "f7bcf8952f06bbbdc5e719008473e77f";
-      console.log('Expected hash for password:', correctPasswordHash);
+      // Simple direct password comparison - no hashing
+      const correctPassword = "rmw2025";
       
       // Check if user has already entered the password in this session
       if (sessionStorage.getItem('signatureAccessGranted') === 'true') {
@@ -506,42 +501,24 @@
         protectedContent.classList.add('revealed');
       }
       
-      // Function to check password using MD5 hash
+      // Simple password check function
       function checkPassword() {
         const enteredPassword = passwordInput.value;
-        // Add debug logging
-        console.log('Password entered:', enteredPassword);
         
-        // Check if md5 function exists before using it
-        if (typeof md5 !== 'function') {
-          console.error('MD5 function not available! Using fallback...');
-          // Fallback to direct comparison if md5 is not available
-          if (enteredPassword === "rmw2025") {
-            passwordOverlay.style.display = 'none';
-            protectedContent.classList.add('revealed');
-            sessionStorage.setItem('signatureAccessGranted', 'true');
-            return;
-          }
+        if (enteredPassword === correctPassword) {
+          // Password is correct
+          passwordOverlay.style.display = 'none';
+          protectedContent.classList.add('revealed');
+          sessionStorage.setItem('signatureAccessGranted', 'true');
         } else {
-          const hashedInput = md5(enteredPassword);
-          console.log('Generated hash:', hashedInput);
+          // Password is incorrect
+          passwordError.style.display = 'block';
+          passwordInput.value = '';
           
-          if (hashedInput === correctPasswordHash) {
-            // Password is correct
-            passwordOverlay.style.display = 'none';
-            protectedContent.classList.add('revealed');
-            sessionStorage.setItem('signatureAccessGranted', 'true');
-            return;
-          }
+          setTimeout(() => {
+            passwordInput.focus();
+          }, 100);
         }
-        
-        // Password is incorrect
-        passwordError.style.display = 'block';
-        passwordInput.value = '';
-        
-        setTimeout(() => {
-          passwordInput.focus();
-        }, 100);
       }
       
       // Event listeners for password submission
