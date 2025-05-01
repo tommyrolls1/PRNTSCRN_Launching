@@ -37,7 +37,6 @@
       left: 0;
     }
     
-    /* Modified content wrapper to have less padding on mobile */
     .content-wrapper {
       display: flex;
       flex-direction: column;
@@ -45,34 +44,29 @@
       justify-content: center;
       width: 100%;
       height: 100%;
-      padding: 0 20px; /* Default padding for larger screens */
+      padding: 0 20px;
       box-sizing: border-box;
     }
     
-    /* Reduce padding on mobile for more horizontal space */
     @media (max-width: 768px) {
       .content-wrapper {
-        padding: 0 10px; /* Reduced padding for mobile */
+        padding: 0 10px;
       }
     }
     
-    /* Modified logo container to have a consistent width */
     .logo-container {
       display: flex;
       flex-direction: column;
       align-items: center;
       width: 100%;
       transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      /* Added max-width property to constrain logo container */
       max-width: min(80vw, 490px);
-      /* Added margin to center the container */
       margin: 0 auto;
     }
     
-    /* Increase width on mobile to fill more of the screen */
     @media (max-width: 768px) {
       .logo-container {
-        max-width: 95vw; /* Wider container on mobile */
+        max-width: 95vw;
       }
     }
     
@@ -80,19 +74,17 @@
       transform: scale(1.03);
     }
     
-    /* Modified logo to align with tagline width */
     .logo {
-      width: 100%; /* Set to 100% of parent container */
+      width: 100%;
       height: auto;
       margin-bottom: 19px;
       filter: drop-shadow(0px 5px 15px rgba(0,0,0,0.05));
       transition: filter 0.3s ease, transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
     
-    /* Ensure logo has proper constraints on mobile */
     @media (max-width: 768px) {
       .logo {
-        width: 100%; /* Ensure full width of container */
+        width: 100%;
         max-height: 30vh;
       }
     }
@@ -102,24 +94,18 @@
       transform: translateY(-2px);
     }
     
-    /* Modified tagline container to match logo width exactly */
+    /* Full-width tagline container with no overflow constraints */
     .tagline-container {
-      width: 100%; /* Full width of parent container */
+      width: 100%;
       text-align: center;
-      margin-top: 0;
-      height: 32px;
-      overflow: hidden;
+      margin: 0;
       box-sizing: border-box;
+      min-height: 32px;
+      display: flex;
+      justify-content: center;
     }
     
-    /* Ensure tagline is properly sized on mobile */
-    @media (max-width: 768px) {
-      .tagline-container {
-        width: 100%; /* Ensure full width alignment with logo */
-        height: 28px; /* Slightly smaller height on mobile */
-      }
-    }
-    
+    /* Style for the tagline text itself */
     .tagline {
       font-family: 'IBM Plex Mono', monospace;
       font-weight: 400;
@@ -127,25 +113,29 @@
       text-transform: uppercase;
       letter-spacing: 1px;
       font-size: clamp(12px, 3.5vw, 26px);
-      display: block;
+      display: inline-block;
       white-space: nowrap;
       overflow: hidden;
+      margin: 0;
       border-right: 2px solid #000;
-      margin: 0 auto;
-      /* Remove all animations - we'll handle this with JS */
-      max-width: 100%;
+      width: 0; /* Starting width for animation */
     }
     
-    @media (max-width: 480px) {
+    @media (max-width: 768px) {
       .tagline {
-        font-size: 11px;
+        width: auto !important; /* Allow width to be controlled by the JS animation */
+        max-width: calc(100% - 10px); /* Prevent overflow */
+        white-space: nowrap;
+        font-size: min(5vw, 110px); /* Dynamic font size based on viewport width */
         letter-spacing: 0.5px;
       }
     }
     
-    @keyframes blink-caret {
-      from, to { border-color: transparent }
-      50% { border-color: #000 }
+    @media (max-width: 480px) {
+      .tagline {
+        font-size: min(5.5vw, 14px); /* Slightly larger relative font size for smaller screens */
+        letter-spacing: 0.4px;
+      }
     }
     
     .text-container {
@@ -155,10 +145,9 @@
       margin-top: var(--spacing-medium);
     }
     
-    /* Further adjust text container spacing on mobile */
     @media (max-width: 768px) {
       .text-container {
-        margin-top: calc(var(--spacing-medium) * 0.5); /* Even less margin on mobile */
+        margin-top: calc(var(--spacing-medium) * 0.5);
       }
     }
     
@@ -168,7 +157,7 @@
       color: var(--grey-color);
       text-transform: uppercase;
       letter-spacing: 1px;
-      font-size: clamp(14px, 3.5vw, var(--text-size)); /* Responsive font size */
+      font-size: clamp(14px, 3.5vw, var(--text-size));
       opacity: 0;
       animation: fadeIn 0.7s ease-in forwards;
       animation-delay: 2.3s;
@@ -177,7 +166,7 @@
     
     .email-contact {
       font-family: 'IBM Plex Mono', monospace;
-      font-size: clamp(14px, 3.5vw, var(--text-size)); /* Responsive font size */
+      font-size: clamp(14px, 3.5vw, var(--text-size));
       color: var(--grey-color);
       text-decoration: none;
       position: relative;
@@ -186,7 +175,7 @@
       animation-delay: 2.5s;
       padding: 5px 10px;
       transition: color 0.3s ease, transform 0.3s ease;
-      word-break: break-word; /* Allows email to wrap on small screens */
+      word-break: break-word;
     }
     
     .email-contact:hover {
@@ -210,7 +199,7 @@
     
     @media (max-width: 768px) {
       .footer {
-        padding-right: 10px; /* Reduce padding in footer as well */
+        padding-right: 10px;
         bottom: 10px;
       }
     }
@@ -229,25 +218,15 @@
       opacity: 1;
     }
 
-    /* Add animation for moveDots (was referenced but not defined) */
     @keyframes moveDots {
       0% { background-position: 0 0; }
       100% { background-position: 50px 50px; }
-    }
-    
-    /* Add debugging styles - these can be removed after fixing */
-    .debug-outline .tagline-container {
-      border: 1px solid red;
-    }
-    .debug-outline .logo {
-      border: 1px solid blue;
     }
   </style>
 </head>
 <body>
   <div class="content-wrapper">
     <div class="logo-container">
-      <!-- Fixed SVG embedding -->
       <svg class="logo" viewBox="0 0 1280 700">
         <g>
             <g id="Layer_1">
@@ -285,70 +264,82 @@
   </div>
 </body>
 <script>
-  // Completely replace the animation with a more precise JavaScript approach
   document.addEventListener('DOMContentLoaded', function() {
-    const tagline = document.querySelector('.tagline');
-    const logoContainer = document.querySelector('.logo-container');
     const taglineText = "Capturing Intelligent Design.";
+    const tagline = document.querySelector('.tagline');
+    const logo = document.querySelector('.logo');
     
     // Reset tagline
     tagline.textContent = "";
     tagline.style.width = "0";
     tagline.style.borderRight = "2px solid #000";
     
-    // Function to get the exact width of the SVG logo
-    function getLogoWidth() {
-      const logo = document.querySelector('.logo');
-      return logo.getBoundingClientRect().width;
-    }
-    
-    // Set the final tagline width to match the logo exactly
-    function setFinalTaglineWidth() {
-      tagline.style.width = getLogoWidth() + "px";
-    }
+    // On mobile, we'll apply a different approach
+    const isMobile = window.matchMedia("(max-width: 768px)").matches;
     
     // Type the text character by character
     let i = 0;
+    let finalWidth = 0;
+    
     function typeWriter() {
       if (i < taglineText.length) {
         tagline.textContent += taglineText.charAt(i);
         i++;
         
-        // Calculate what percentage of the text has been typed
-        const progress = i / taglineText.length;
-        
-        // Set width proportionally to the text completion
-        const targetWidth = getLogoWidth() * progress;
-        tagline.style.width = targetWidth + "px";
+        if (!isMobile) {
+          // Desktop: Match logo width based on progress
+          const logoRect = logo.getBoundingClientRect();
+          finalWidth = logoRect.width;
+          const progress = i / taglineText.length;
+          tagline.style.width = (finalWidth * progress) + "px";
+        } else {
+          // Mobile: Set actual text width with a little padding for the caret
+          tagline.style.width = tagline.scrollWidth + "px";
+        }
         
         setTimeout(typeWriter, 60);
       } else {
-        // Ensure final width matches exactly
-        setFinalTaglineWidth();
+        // Ensure final width matches logo width exactly (for desktop only)
+        if (!isMobile) {
+          const logoRect = logo.getBoundingClientRect();
+          finalWidth = logoRect.width;
+          tagline.style.width = finalWidth + "px";
+        } else {
+          // For mobile, set width to match text content plus room for caret
+          tagline.style.width = tagline.scrollWidth + "px";
+        }
         
-        // Remove caret after typing is complete
+        // Add blinking caret effect after typing is complete
+        tagline.style.borderRight = "2px solid #000";
+        let caretVisible = true;
+        
+        const blinkCaret = setInterval(function() {
+          caretVisible = !caretVisible;
+          tagline.style.borderRight = caretVisible ? "2px solid #000" : "2px solid transparent";
+        }, 500);
+        
+        // Clear the interval after a few seconds
         setTimeout(function() {
+          clearInterval(blinkCaret);
           tagline.style.borderRight = "none";
-        }, 800);
+        }, 3000);
       }
     }
     
     // Start typing after a short delay
     setTimeout(typeWriter, 300);
     
-    // Add a resize listener to keep tagline aligned with logo
-    window.addEventListener('resize', function() {
-      // Only adjust width if animation is complete
-      if (i >= taglineText.length) {
-        setFinalTaglineWidth();
-      }
-    });
-    
-    // For mobile views, add an additional check to ensure width is correct
-    // after all loading and transitions are complete
-    setTimeout(function() {
-      setFinalTaglineWidth();
-    }, 3000);
+    // For desktop only: Update tagline width whenever window is resized
+    if (!isMobile) {
+      window.addEventListener('resize', function() {
+        if (i >= taglineText.length) {
+          // Only adjust width if typing is complete
+          const logoRect = logo.getBoundingClientRect();
+          finalWidth = logoRect.width;
+          tagline.style.width = finalWidth + "px";
+        }
+      });
+    }
   });
 </script>
 </html>
