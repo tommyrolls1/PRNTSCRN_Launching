@@ -84,9 +84,9 @@
       align-items: center;
       justify-content: flex-start;
       width: 100%;
-      max-width: 800px;
-      margin-top: 100px; /* Adjusted for taller header */
-      padding: 20px;
+      max-width: 800px; /* Reduced from 800px for more margin */
+      margin-top: 120px; /* Increased from 100px for more top margin */
+      padding: 20px 40px; /* Increased horizontal padding for more margin */
       box-sizing: border-box;
       overflow-y: auto; /* Make it scrollable if needed */
     }
@@ -95,7 +95,7 @@
     
     .philosophy-container {
       width: 100%;
-      max-width: 700px;
+      max-width: 700px; /* Reduced from 700px for more margin */
       text-align: left;
       line-height: 1.8;
       margin-bottom: 30px;
@@ -113,14 +113,21 @@
       animation-duration: 1.5s;
     }
     
-    /* First paragraph appears immediately */
-    .philosophy-paragraph:first-child {
+    /* Animation delays for the three sections */
+    .philosophy-paragraph:nth-child(1) {
       animation-delay: 0.5s;
     }
     
-    /* Second paragraph appears with delay */
-    .philosophy-paragraph:last-child {
-      animation-delay: 2.5s;
+    .philosophy-paragraph:nth-child(2) {
+      animation-delay: 1.0s;
+    }
+    
+    .philosophy-paragraph:nth-child(3) {
+      animation-delay: 1.5s;
+    }
+    
+    .bold-text {
+      font-weight: 700;
     }
     
     @keyframes fadeIn {
@@ -174,8 +181,9 @@
       }
       
       .content-wrapper {
-        padding: 15px;
+        padding: 15px 25px; /* Increased horizontal padding on mobile */
         margin-top: 89px; /* Adjusted for taller header on mobile */
+        max-width: 100%;
       }
       
       .philosophy-paragraph {
@@ -265,15 +273,20 @@
     
     <div class="philosophy-container">
       <div class="philosophy-paragraph">
-        PRNTSCRN.studio reimagines "print screen" as the first step in <i>intelligent creation</i> — not a snapshot, but a <i>system</i>.
-        Our brand lives at the intersection of logic and design: structured, modular, and elegantly minimal.
-        We're building a <i>design OS</i> — a creative control layer for teams who demand both intelligence and impeccable aesthetics.
+        <span class="bold-text">PRNTSCRN.studio reimagines 'print screen' as the beginning of intelligent creation — not a flat image, but a system.</span>
+        <br>
+        We operate at the intersection of logic and creativity: modular, precise, and elegantly minimal. At its core, PRNTSCRN is a design OS — a creative control layer for teams who demand speed, brand fidelity, and visual excellence.
       </div>
       
       <div class="philosophy-paragraph">
-        At it's core: an <i>intelligent design engine</i> for documents — where AI meets real layout logic to generate <i>brand-perfect outputs</i> in minutes.
-        Think of it as a <i>modular design system</i> that writes, assembles, and formats complex documents with the precision of InDesign, no code required.
-        It's not just automation — it's <i>creative infrastructure</i> for teams that need speed without sacrificing style.
+        More than automation — it's a layout-aware composition engine that assembles, writes, and formats complex documents using reusable design logic and AI.
+        Powered by real design tools — including seamless client-side integration with Adobe InDesign — PRNTSCRN transforms repetitive workflows into brand-perfect, high-impact outputs.
+      </div>
+      
+      <div class="philosophy-paragraph">
+        We're building a new creative infrastructure that scales design.
+        <br>
+        <span class="bold-text">We're capturing intelligent design.</span>
       </div>
     </div>
   
