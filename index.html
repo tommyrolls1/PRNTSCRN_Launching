@@ -125,18 +125,19 @@
     
     @media (max-width: 768px) {
       .tagline {
-        width: auto !important; /* Allow width to be controlled by the JS animation */
-        max-width: 90vw; /* Prevent overflow by limiting to 90% of viewport width */
+        width: auto !important;
+        /* Remove max-width constraint to allow full expansion */
+        max-width: 100%;
         white-space: nowrap;
-        font-size: min(4vw, 16px); /* Reduce font size to ensure text fits */
-        letter-spacing: 0.3px; /* Reduce letter spacing slightly */
+        font-size: min(5vw, 20px);
+        letter-spacing: 0.5px;
       }
     }
     
     @media (max-width: 480px) {
       .tagline {
-        font-size: min(3.8vw, 14px); /* Further reduce font size for very small screens */
-        letter-spacing: 0.2px;
+        font-size: min(5vw, 18px); /* Keep relatively large for small screens */
+        letter-spacing: 0.4px;
       }
     }
     
@@ -303,11 +304,12 @@
           const progress = i / taglineText.length;
           tagline.style.width = (finalWidth * progress) + "px";
         } else {
-          // Mobile: Use content-based width but limit to container width
-          const containerWidth = document.querySelector('.tagline-container').getBoundingClientRect().width;
-          // Use 85% of container width to ensure text fits with some margin
-          const textWidth = Math.min(tagline.scrollWidth, containerWidth * 0.85);
-          tagline.style.width = textWidth + "px";
+          // Mobile: Use available container width directly rather than logo reference
+          const containerWidth = document.querySelector('.logo-container').getBoundingClientRect().width;
+          const progress = i / taglineText.length;
+          // Use the full container width (logo-container) instead of just the logo
+          const targetWidth = containerWidth * progress;
+          tagline.style.width = targetWidth + "px";
         }
         
         setTimeout(typeWriter, 60);
@@ -318,10 +320,9 @@
           finalWidth = logoRect.width;
           tagline.style.width = finalWidth + "px";
         } else {
-          // For mobile, ensure text fits within container with more conservative margin
-          const containerWidth = document.querySelector('.tagline-container').getBoundingClientRect().width;
-          const textWidth = Math.min(tagline.scrollWidth, containerWidth * 0.85);
-          tagline.style.width = textWidth + "px";
+          // For mobile, use the full container width
+          const containerWidth = document.querySelector('.logo-container').getBoundingClientRect().width;
+          tagline.style.width = containerWidth + "px";
         }
         
         // Add blinking caret effect after typing is complete
@@ -354,10 +355,9 @@
           finalWidth = logoRect.width;
           tagline.style.width = finalWidth + "px";
         } else {
-          // For mobile, adjust width to fit container with more conservative margin
-          const containerWidth = document.querySelector('.tagline-container').getBoundingClientRect().width;
-          const textWidth = Math.min(tagline.scrollWidth, containerWidth * 0.85);
-          tagline.style.width = textWidth + "px";
+          // For mobile, use the full container width
+          const containerWidth = document.querySelector('.logo-container').getBoundingClientRect().width;
+          tagline.style.width = containerWidth + "px";
         }
       }
     });
