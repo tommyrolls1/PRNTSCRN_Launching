@@ -103,6 +103,7 @@
       min-height: 32px;
       display: flex;
       justify-content: center;
+      overflow: hidden; /* Add overflow hidden to prevent horizontal scrolling */
     }
     
     /* Style for the tagline text itself */
@@ -119,12 +120,13 @@
       margin: 0;
       border-right: 2px solid #000;
       width: 0; /* Starting width for animation */
+      max-width: 100%; /* Ensure text doesn't exceed container width */
     }
     
     @media (max-width: 768px) {
       .tagline {
         width: auto !important; /* Allow width to be controlled by the JS animation */
-        max-width: calc(100% - 10px); /* Prevent overflow */
+        max-width: 90vw; /* Prevent overflow by limiting to 90% of viewport width */
         white-space: nowrap;
         font-size: min(5vw, 110px); /* Dynamic font size based on viewport width */
         letter-spacing: 0.5px;
@@ -301,8 +303,10 @@
           const progress = i / taglineText.length;
           tagline.style.width = (finalWidth * progress) + "px";
         } else {
-          // Mobile: Set actual text width with a little padding for the caret
-          tagline.style.width = tagline.scrollWidth + "px";
+          // Mobile: Use content-based width but limit to container width
+          const containerWidth = document.querySelector('.tagline-container').getBoundingClientRect().width;
+          const textWidth = Math.min(tagline.scrollWidth, containerWidth * 0.9);
+          tagline.style.width = textWidth + "px";
         }
         
         setTimeout(typeWriter, 60);
@@ -313,8 +317,10 @@
           finalWidth = logoRect.width;
           tagline.style.width = finalWidth + "px";
         } else {
-          // For mobile, set width to match text content plus room for caret
-          tagline.style.width = tagline.scrollWidth + "px";
+          // For mobile, ensure text fits within container
+          const containerWidth = document.querySelector('.tagline-container').getBoundingClientRect().width;
+          const textWidth = Math.min(tagline.scrollWidth, containerWidth * 0.9);
+          tagline.style.width = textWidth + "px";
         }
         
         // Add blinking caret effect after typing is complete
@@ -338,16 +344,22 @@
     setTimeout(typeWriter, 300);
     
     // For desktop only: Update tagline width whenever window is resized
-    if (!isMobile) {
-      window.addEventListener('resize', function() {
-        if (i >= taglineText.length) {
-          // Only adjust width if typing is complete
+    window.addEventListener('resize', function() {
+      if (i >= taglineText.length) {
+        // Only adjust width if typing is complete
+        const isMobileNow = window.matchMedia("(max-width: 768px)").matches;
+        if (!isMobileNow) {
           const logoRect = logo.getBoundingClientRect();
           finalWidth = logoRect.width;
           tagline.style.width = finalWidth + "px";
+        } else {
+          // For mobile, adjust width to fit container
+          const containerWidth = document.querySelector('.tagline-container').getBoundingClientRect().width;
+          const textWidth = Math.min(tagline.scrollWidth, containerWidth * 0.9);
+          tagline.style.width = textWidth + "px";
         }
-      });
-    }
+      }
+    });
   });
 </script>
 </html>
